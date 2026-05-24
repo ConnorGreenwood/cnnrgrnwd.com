@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connor</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #0f172a;
+      color: white;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .background {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: -2;
+      background: radial-gradient(circle at top left, #1e293b, #0f172a 60%);
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.45;
+      animation: float 18s infinite ease-in-out;
+    }
+
+    .blob1 {
+      width: 350px;
+      height: 350px;
+      background: #3b82f6;
+      top: -100px;
+      left: -100px;
+    }
+
+    .blob2 {
+      width: 300px;
+      height: 300px;
+      background: #8b5cf6;
+      bottom: -100px;
+      right: -100px;
+      animation-delay: 5s;
+    }
+
+    .blob3 {
+      width: 250px;
+      height: 250px;
+      background: #06b6d4;
+      top: 40%;
+      left: 45%;
+      animation-delay: 10s;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate(40px, -30px) scale(1.1);
+      }
+
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+    }
+
+    .grid {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(circle at center, black 30%, transparent 85%);
+      animation: gridMove 20s linear infinite;
+    }
+
+    @keyframes gridMove {
+      from {
+        transform: translateY(0);
+      }
+
+      to {
+        transform: translateY(40px);
+      }
+    }
+
+    .container {
+      min-height: 100vh;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 1100px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      animation: fadeIn 1.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero {
+      text-align: center;
+      padding: 80px 40px;
+      background: linear-gradient(
+        135deg,
+        rgba(59,130,246,0.2),
+        rgba(139,92,246,0.2)
+      );
+    }
+
+    .hero h1 {
+      font-size: 3.8rem;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+
+    .hero p {
+      color: #cbd5e1;
+      font-size: 1.15rem;
+      max-width: 700px;
+      margin: auto;
+      line-height: 1.7;
+    }
+
+    .socials {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .socials a {
+      color: #bfdbfe;
+      text-decoration: none;
+      background: rgba(147,197,253,0.12);
+      border: 1px solid rgba(147,197,253,0.2);
+      padding: 10px 16px;
+      border-radius: 999px;
+      transition: 0.3s ease;
+    }
+
+    .socials a:hover {
+      background: rgba(147,197,253,0.22);
+      transform: translateY(-3px);
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+      padding: 40px;
+    }
+
+    .section {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 25px;
+      transition: 0.3s ease;
+      cursor: pointer;
+    }
+
+    .section:hover {
+      transform: translateY(-8px);
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .section h2 {
+      margin-bottom: 15px;
+      color: #93c5fd;
+      font-size: 1.4rem;
+    }
+
+    .section p,
+    .section li {
+      color: #e2e8f0;
+      line-height: 1.7;
+      font-size: 0.98rem;
+    }
+
+    .section ul {
+      list-style: none;
+    }
+
+    .section li {
+      margin-bottom: 10px;
+    }
+
+    .read-more {
+      display: inline-block;
+      margin-top: 18px;
+      color: #bfdbfe;
+      font-size: 0.9rem;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .badge {
+      background: rgba(147,197,253,0.12);
+      color: #bfdbfe;
+      border: 1px solid rgba(147,197,253,0.2);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+    }
+
+    .details {
+      padding: 40px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .details-box {
+      display: none;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 28px;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .details-box.active {
+      display: block;
+    }
+
+    .details-box h2 {
+      color: #93c5fd;
+      margin-bottom: 15px;
+    }
+
+    .details-box p,
+    .details-box li {
+      color: #e2e8f0;
+      line-height: 1.8;
+    }
+
+    .details-box ul {
+      margin-top: 15px;
+      padding-left: 20px;
+    }
+
+    .close-btn {
+      margin-top: 22px;
+      background: rgba(147,197,253,0.12);
+      color: #bfdbfe;
+      border: 1px solid rgba(147,197,253,0.2);
+      padding: 10px 15px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .close-btn:hover {
+      background: rgba(147,197,253,0.22);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 25px;
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+
+    @media(max-width: 700px) {
+      .container {
+        padding: 20px;
+      }
+
+      .hero {
+        padding: 60px 25px;
+      }
+
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+
+      .content,
+      .details {
+        padding: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="background">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+    <div class="grid"></div>
+  </div>
+
+  <div class="container">
+
+    <div class="card">
+
+      <div class="hero">
+        <h1>Connor</h1>
+
+        <p>
+          Interested in IT infrastructure, Windows Server environments,
+          deployment systems, networking, and building technical projects.
+        </p>
+
+        <div class="socials">
+          <a href="https://www.linkedin.com/in/cnnrgrnwd" target="_blank">
+            LinkedIn
+          </a>
+
+          <a href="https://x.com/cnnnrgrnwd" target="_blank">
+            X / Twitter
+          </a>
+
+          <a href="mailto:Connor.Greenwood@cnnrgrnwd.com">
+            Email
+          </a>
+        </div>
+      </div>
+
+      <div class="content">
+
+        <div class="section" onclick="showDetails('about')">
+          <h2>About Me</h2>
+          <p>
+            I enjoy learning about technology, working with systems,
+            and experimenting with servers.
+          </p>
+          <span class="read-more">Click to read more →</span>
+        </div>
+
+        <div class="section" onclick="showDetails('server')">
+          <h2>Windows Server</h2>
+          <p>
+            Experienced with Windows Server, Active Directory,
+            users, groups, and domain administration.
+          </p>
+
+          <div class="badges">
+            <span class="badge">Windows Server</span>
+            <span class="badge">Active Directory</span>
+            <span class="badge">AD DS</span>
+          </div>
+
+          <span class="read-more">Click to read more →</span>
+        </div>
+
+        <div class="section" onclick="showDetails('deployment')">
+          <h2>Deployment</h2>
+          <p>
+            Familiar with MDT, PXE boot, Windows imaging,
+            and deploying Windows across multiple PCs.
+          </p>
+
+          <div class="badges">
+            <span class="badge">MDT</span>
+            <span class="badge">PXE Boot</span>
+            <span class="badge">Imaging</span>
+          </div>
+
+          <span class="read-more">Click to read more →</span>
+        </div>
+
+        <div class="section" onclick="showDetails('networking')">
+          <h2>Infrastructure & Networking</h2>
+          <p>
+            Comfortable with DNS, DHCP, domain environments,
+            and network troubleshooting.
+          </p>
+          <span class="read-more">Click to read more →</span>
+        </div>
+
+        <div class="section" onclick="showDetails('homelab')">
+          <h2>Home Lab</h2>
+          <p>
+            I use lab-style environments to practise servers,
+            deployment, networking, and system configuration.
+          </p>
+          <span class="read-more">Click to read more →</span>
+        </div>
+
+        <div class="section" onclick="showDetails('hardware')">
+          <h2>Hardware & Repair</h2>
+          <p>
+            Experienced with upgrading, maintaining,
+            and troubleshooting PCs and computer hardware.
+          </p>
+          <span class="read-more">Click to read more →</span>
+        </div>
+
+      </div>
+
+      <div class="details">
+
+        <div id="about" class="details-box">
+          <h2>About Me</h2>
+          <p>
+            I enjoy hands-on learning with computers, servers, websites,
+            deployment systems, and networking. I like understanding how things work
+            and using that knowledge to build useful projects.
+          </p>
+          <button class="close-btn" onclick="hideDetails()">Close</button>
+        </div>
+
+        <div id="server" class="details-box">
+          <h2>Windows Server</h2>
+          <p>
+            I am confident working with Windows Server environments,
+            especially Active Directory Domain Services. I understand how
+            domain environments are structured and how users, groups,
+            permissions, and policies are managed.
+          </p>
+
+          <ul>
+            <li>Active Directory Domain Services</li>
+            <li>User and group management</li>
+            <li>Permissions and access control</li>
+            <li>Domain administration basics</li>
+          </ul>
+
+          <button class="close-btn" onclick="hideDetails()">Close</button>
+        </div>
+
+        <div id="deployment" class="details-box">
+          <h2>Deployment</h2>
+          <p>
+            I am familiar with Microsoft Deployment Toolkit and PXE boot
+            environments for deploying Windows across multiple PCs.
+            I am interested in automated and network-based deployment methods.
+          </p>
+
+          <ul>
+            <li>Microsoft Deployment Toolkit</li>
+            <li>PXE boot setup</li>
+            <li>Windows imaging</li>
+            <li>Multi-PC Windows deployment</li>
+          </ul>
+
+          <button class="close-btn" onclick="hideDetails()">Close</button>
+        </div>
+
+        <div id="networking" class="details-box">
+          <h2>Infrastructure & Networking</h2>
+          <p>
+            I am comfortable learning and working with core parts of IT infrastructure,
+            including DNS, DHCP, domains, and troubleshooting connected systems.
+          </p>
+
+          <ul>
+            <li>DNS and DHCP basics</li>
+            <li>Domain environments</li>
+            <li>Network troubleshooting</li>
+            <li>Windows-based infrastructure</li>
+          </ul>
+
+          <button class="close-btn" onclick="hideDetails()">Close</button>
+        </div>
+
+        <div id="homelab" class="details-box">
+          <h2>Home Lab</h2>
+          <p>
+            I use lab-style setups to practise Windows Server,
+            Active Directory, deployment systems, networking,
+            virtualization, and general system administration.
+          </p>
+
+          <ul>
+            <li>Server administration practice</li>
+            <li>Deployment testing</li>
+            <li>Networking practice</li>
+            <li>System configuration</li>
+          </ul>
+
+          <button class="close-btn" onclick="hideDetails()">Close</button>
+        </div>
+
+        <div id="hardware" class="details-box">
+          <h2>Hardware & Repair</h2>
+          <p>
+            I am comfortable working with PC hardware, upgrades,
+            troubleshooting, storage replacements, and general system maintenance.
+          </p>
+
+          <ul>
+            <li>PC upgrades</li>
+            <li>Storage replacement</li>
+            <li>Hardware troubleshooting</li>
+            <li>System maintenance</li>
+          </ul>
+
+          <button class="close-btn" onclick="hideDetails()">Close</button>
+        </div>
+
+      </div>
+
+      <div class="footer">
+        © 2026 cnnrgrnwd.com — All Rights Reserved
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    function showDetails(id) {
+      const boxes = document.querySelectorAll(".details-box");
+
+      boxes.forEach(box => {
+        box.classList.remove("active");
+      });
+
+      document.getElementById(id).classList.add("active");
+
+      document.querySelector(".details").scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+
+    function hideDetails() {
+      const boxes = document.querySelectorAll(".details-box");
+
+      boxes.forEach(box => {
+        box.classList.remove("active");
+      });
+    }
+  </script>
+
+</body>
+</html>
